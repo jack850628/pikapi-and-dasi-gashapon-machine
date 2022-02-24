@@ -642,11 +642,11 @@
                     <span style="color: #fcd53f; font-size: 45px;">{{PRIZE_LEVEL[prizes[prizeIndex]?.weight]}}</span>
                 </div>
                 <div style="font-size: 30px;">
-                    <span>⭐</span>
-                    <span :style="{display: prizes[prizeIndex]?.weight <= 8? 'inline': 'none'}">⭐</span>
-                    <span :style="{display: prizes[prizeIndex]?.weight <= 6? 'inline': 'none'}">⭐</span>
-                    <span :style="{display: prizes[prizeIndex]?.weight <= 4? 'inline': 'none'}">⭐</span>
-                    <span :style="{display: prizes[prizeIndex]?.weight <= 1? 'inline': 'none'}">⭐</span>
+                    <span style="display: inline-block;">⭐</span>
+                    <span :style="{display: prizes[prizeIndex]?.weight <= 8? 'inline-block': 'none'}">⭐</span>
+                    <span :style="{display: prizes[prizeIndex]?.weight <= 6? 'inline-block': 'none'}">⭐</span>
+                    <span :style="{display: prizes[prizeIndex]?.weight <= 4? 'inline-block': 'none'}">⭐</span>
+                    <span :style="{display: prizes[prizeIndex]?.weight <= 1? 'inline-block': 'none'}">⭐</span>
                 </div>
             </div>
             <div id="next" :class="{animation: imageStatus == IMAGE_STATUS.OPEN}">
