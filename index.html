@@ -23,8 +23,8 @@
 
         #menu{
             position: fixed;
-            right: -180px;
-            width: 180px;
+            right: -100%;
+            width: 100%;
             height: 100%;
             transition: 1s;
 
@@ -42,9 +42,18 @@
         }
         #menu > :nth-child(1).open{
             transform: rotate(0deg);
+            left: 0px;
         }
         #menu.open{
             right: 0px;
+        }
+        #menu > #listView{
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1;
+            align-items: flex-start;
+            align-content: flex-start;
+            overflow-y: auto;
         }
 
         #simg{
@@ -149,6 +158,8 @@
             flex-direction: column;
             justify-content: center;
             margin-bottom: 10px;
+            width: 177px;
+            height: 175px;
         }
         #menu .menu-item > .close{
             position: absolute;
@@ -662,11 +673,11 @@
         </div>
         <div id="menu" :class="{open: isMenuOpen}">
             <button :class="{open: isMenuOpen}" @click="isMenuOpen = isMenuOpen? false: true"><span>➜</span></button>
-            <div style="text-align: center;">
+            <div style="text-align: center; zoom: 2;">
                 獎品清單
             </div>
             <input id="selectImage" type="file" accept="image/*;" @change="prizeImageChanged" hidden>
-            <div id="listView" style="overflow: auto;">
+            <div id="listView">
                 <div v-for="(i, k) in prizes" class="menu-item">
                     <button class="close" @click="prizes.splice(k,1)">X</button>
                     <div style="text-align: center;">
@@ -678,8 +689,11 @@
                         <option v-for="(oi, ok) in PRIZE_LEVEL" :value="ok">{{oi}}</option>
                     </select>
                 </div>
+                <div class="menu-item">
+                    <button @click="addPrize" style="zoom: 1.2; height: 100%;">+新增獎品</button>
+                </div>
             </div>
-            <button @click="addPrize" style="zoom: 1.2;">+新增獎品</button>
+            <!-- <button @click="addPrize" style="zoom: 1.2; flex: 0;">+新增獎品</button> -->
         </div>
     </div>
 </body>
