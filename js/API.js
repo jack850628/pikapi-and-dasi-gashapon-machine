@@ -5,65 +5,86 @@ const API_URL = `${API_PROTOCOL}://${API_HOST}:${API_POST}/api`;
 
 class CardPool{
         static prefix = 'cardPool'
-        static async getAllPools() {
-            return (await fetch(`${API_URL}/${CardPool.prefix}/`)).json();
+        static getAllPools() {
+            return fetch(`${API_URL}/${CardPool.prefix}/`).then((result) => {
+                if(!result.ok) throw Error(result.json())
+                return result.json()
+            });
         }
 
-        static async getPool(poolId) {
-            return (await fetch(`${API_URL}/${CardPool.prefix}/${poolId}`)).json();
+        static getPool(poolId) {
+            return fetch(`${API_URL}/${CardPool.prefix}/${poolId}`).then((result) => {
+                if(!result.ok) throw Error(result.json())
+                return result.json()
+            });
         }
 
-        static async createPool(token, name, describe, image, isPublic) {
+        static  createPool(token, name, describe, image, isPublic) {
             var data = new FormData();
             data.append('name', name);
             data.append('describe', describe);
             data.append('image', image);
             data.append('isPublic', isPublic);
 
-            return (await fetch(`${API_URL}/${CardPool.prefix}/create`, {
+            return fetch(`${API_URL}/${CardPool.prefix}/create`, {
                 method: 'PUT',
                 body: data,
                 headers: new Headers({
                     'user-token': token
                 })
-            })).json();
+            }).then((result) => {
+                if(!result.ok) throw Error(result.json())
+                return result.json()
+            });
         }
 
-        static async updatePool(token, poolId, name, describe, image, isPublic) {
+        static updatePool(token, poolId, name, describe, image, isPublic) {
             var data = new FormData();
             data.append('name', name);
             data.append('describe', describe);
             data.append('image', image);
             data.append('isPublic', isPublic);
 
-            return (await fetch(`${API_URL}/${CardPool.prefix}/${poolId}`, {
+            return fetch(`${API_URL}/${CardPool.prefix}/${poolId}`, {
                 method: 'POST',
                 body: data,
                 headers: new Headers({
                     'user-token': token
                 })
-            })).json();
+            }).then((result) => {
+                if(!result.ok) throw Error(result.json())
+                return result.json()
+            });
         }
 
-        static async deletePool(token, poolId) {
-            return (await fetch(`${API_URL}/${CardPool.prefix}/${poolId}`, {
+        static deletePool(token, poolId) {
+            return fetch(`${API_URL}/${CardPool.prefix}/${poolId}`, {
                 method: 'DELETE',
                 body: null,
                 headers: new Headers({
                     'user-token': token
                 })
-            })).json();
+            }).then((result) => {
+                if(!result.ok) throw Error(result.json())
+                return result.json()
+            });
         }
 }
 
 class Card{
     static prefix = 'card'
-    static async getAllCards(poolId) {
-        return (await fetch(`${API_URL}/${Card.prefix}/all/${poolId}`)).json();
+    static getAllCards(poolId) {
+        return fetch(`${API_URL}/${Card.prefix}/all/${poolId}`).then((result) => {
+            if(!result.ok) throw Error(result.json())
+            return result.json()
+        });
     }
 
-    static async getCard(cardId) {
-        return (await fetch(`${API_URL}/${Card.prefix}/${cardId}`)).json();
+    static getCard(cardId) {
+        return fetch(`${API_URL}/${Card.prefix}/${cardId}`).then((result) => {
+            if(!result.ok) throw Error(result.json())
+            return result.json()
+        });
     }
 
     static async createCard(token, name, image, weight, cardPoolId) {
@@ -73,37 +94,46 @@ class Card{
         data.append('weight', weight);
         data.append('cardPoolId', cardPoolId);
 
-        return (await fetch(`${API_URL}/${Card.prefix}/create`, {
+        return fetch(`${API_URL}/${Card.prefix}/create`, {
             method: 'PUT',
             body: data,
             headers: new Headers({
                 'user-token': token
             })
-        })).json();
+        }).then((result) => {
+            if(!result.ok) throw Error(result.json())
+            return result.json()
+        });
     }
 
-    static async updateCard(token, cardId, name, image, weight) {
+    static updateCard(token, cardId, name, image, weight) {
         var data = new FormData();
         data.append('name', name);
         data.append('image', image);
         data.append('weight', weight);
 
-        return (await fetch(`${API_URL}/${Card.prefix}/${cardId}`, {
+        return fetch(`${API_URL}/${Card.prefix}/${cardId}`, {
             method: 'POST',
             body: data,
             headers: new Headers({
                 'user-token': token
             })
-        })).json();
+        }).then((result) => {
+            if(!result.ok) throw Error(result.json())
+            return result.json()
+        });
     }
 
-    static async deleteCard(token, cardId) {
-        return (await fetch(`${API_URL}/${Card.prefix}/${cardId}`, {
+    static deleteCard(token, cardId) {
+        return fetch(`${API_URL}/${Card.prefix}/${cardId}`, {
             method: 'DELETE',
             body: null,
             headers: new Headers({
                 'user-token': token
             })
-        })).json();
+        }).then((result) => {
+            if(!result.ok) throw Error(result.json())
+            return result.json()
+        });
     }
 }

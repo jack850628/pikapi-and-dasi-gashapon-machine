@@ -15,8 +15,8 @@ window.onload = function(){
     const CARD_MAX_WIDTH = 112;
     const CARD_MAX_HEIGHT = 112;
     
-    const POOL_MAX_WIDTH = 212;
-    const POOL_MAX_HEIGHT = 112;
+    const POOL_MAX_WIDTH = 112;
+    const POOL_MAX_HEIGHT = 56;
 
     const IMAGE_STATUS = {
         DOWN: 0,
@@ -275,11 +275,13 @@ window.onload = function(){
                             }else{
                                 w = img.width / img.height * h;
                             }
+                            console.debug(w, h);
                             canvas.width = w;
                             canvas.height = h;
                             var ctx = canvas.getContext("2d");
                             ctx.drawImage(img, 0, 0, w, h);
                             this.changeImageForObj.image = canvas.toDataURL(file.type);
+                            console.debug(this.changeImageForObj.image.length);
                         }
                         img.src = e.target.result;
                     };
@@ -311,7 +313,10 @@ window.onload = function(){
                         this.editingPool.describe,
                         this.editingPool.image,
                         this.editingPool.isPublic
-                    ).then(result => {
+                    ).catch((e) => {
+                        alert('不好意思，發生錯誤了')
+                        console.error(e);
+                    }).then(result => {
                         this.pools.push({
                             'id': result.message,
                             'name': this.editingPool.name,
@@ -338,6 +343,9 @@ window.onload = function(){
                         this.pools[this.editingPoolIndex].describe = this.editingPool.describe;
                         this.pools[this.editingPoolIndex].image = this.editingPool.image;
                         this.pools[this.editingPoolIndex].isPublic = this.editingPool.isPublic;
+                    }).catch((e) => {
+                        alert('不好意思，發生錯誤了')
+                        console.error(e);
                     }).finally(() => {
                         this.isShowEditPool = false;
                         this.isShowPaeaseWait = false;
@@ -353,6 +361,9 @@ window.onload = function(){
                     this.isShowPaeaseWait = true;
                     CardPool.deletePool(this.token, this.pools[i].id).then(result => {
                         this.pools.splice(i, 1);
+                    }).catch((e) => {
+                        alert('不好意思，發生錯誤了')
+                        console.error(e);
                     }).finally(() => {
                         this.isShowPaeaseWait = false;
                     });
@@ -395,7 +406,10 @@ window.onload = function(){
                             this.editingCard.image,
                             this.editingCard.weight,
                             this.pools[this.cardPoolIndex].id
-                        ).then(result => {
+                        ).catch((e) => {
+                            alert('不好意思，發生錯誤了')
+                            console.error(e);
+                        }).then(result => {
                             this.prizes.push({
                                 'id': result.message,
                                 'name': this.editingCard.name,
@@ -416,7 +430,10 @@ window.onload = function(){
                             this.editingCard.name,
                             this.editingCard.image,
                             this.editingCard.weight
-                        ).then(result => {
+                        ).catch((e) => {
+                            alert('不好意思，發生錯誤了')
+                            console.error(e);
+                        }).then(result => {
                             this.prizes[this.editingCardIndex].name = this.editingCard.name;
                             this.prizes[this.editingCardIndex].image = this.editingCard.image;
                             this.prizes[this.editingCardIndex].weight = this.editingCard.weight;
@@ -441,6 +458,9 @@ window.onload = function(){
                         this.isShowPaeaseWait = true;
                         Card.deleteCard(this.token, this.prizes[i].id).then(result => {
                             this.prizes.splice(i, 1);
+                        }).catch((e) => {
+                            alert('不好意思，發生錯誤了')
+                            console.error(e);
                         }).finally(() => {
                             this.isShowPaeaseWait = false;
                         });
@@ -455,6 +475,9 @@ window.onload = function(){
                     Card.getAllCards(this.pools[i].id).then((result) => {
                         this.prizes = result;
                         this.setWeight();
+                    }).catch((e) => {
+                        alert('不好意思，發生錯誤了')
+                        console.error(e);
                     }).finally(() => {
                         this.isShowPaeaseWait = false;
                     });
