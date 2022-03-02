@@ -1,0 +1,702 @@
+html, body{
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+}
+#app{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+#login{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000054;
+    z-index: 2;
+}
+#login.show{
+    display: flex;
+}
+#login > button, #login > p{
+    zoom: 1.5;
+}
+#login > p{
+    color: white;
+}
+
+#menu{
+    position: fixed;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: gainsboro;
+}
+#menu > :nth-child(1){
+    position: absolute;
+    left: -30px;
+    zoom: 1.5;
+    transition: 1s;
+    transform: rotate(180deg);
+}
+#menu > :nth-child(1).open{
+    transform: rotate(0deg);
+    left: 0px;
+}
+#menu > :nth-child(1).hidden{
+    left: 0px;
+}
+#menu.open{
+    right: 0px;
+}
+#menu > #listView{
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow-y: auto;
+}
+
+#pool-menu{
+    position: fixed;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: 1s;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: gainsboro;
+}
+#pool-menu > :nth-child(1){
+    position: absolute;
+    right: -30px;
+    zoom: 1.5;
+    transition: 1s;
+    transform: rotate(0deg);
+}
+#pool-menu > :nth-child(1).open{
+    transform: rotate(180deg);
+    right: 0px;
+}
+#pool-menu > :nth-child(1).hidden{
+    right: 0px;
+}
+#pool-menu.open{
+    left: 0px;
+}
+#pool-menu > #listView{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+}
+
+#edit-pool{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+
+    display: flex;
+    opacity: 0;
+    z-index: -1;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000054;
+}
+#edit-pool.open{
+    opacity: 1;
+    z-index: 2;
+}
+#edit-pool .pool-menu-item > input{
+    /* background-color: white; */
+    background: transparent;
+    border: none;
+    text-align: center;
+    width: 100%;
+}
+#edit-pool .pool-menu-item > :nth-child(1){
+    margin: 25px 0px 25px 0px;
+}
+#edit-pool .pool-menu-item{
+    height: 104px;
+    margin: 0px;
+}
+#edit-pool > div{
+    width: 90%;
+    background-color: #ffffffab;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    user-select: none;
+}
+#edit-pool > div > :nth-child(2){
+    width: 100%;
+}
+#edit-pool > div > :nth-child(3){
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#edit-pool > div > :nth-child(3) > :nth-child(1){
+    flex: 0;
+}
+#edit-pool > div > :nth-child(3) > :nth-child(2){
+    flex: 1;
+}
+#edit-pool > div > :nth-child(4){
+    display: flex;
+}
+#edit-pool > div > :nth-child(4) > button{
+    flex: 1;
+}
+
+#edit-card{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+
+    display: flex;
+    opacity: 0;
+    z-index: -1;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000054;
+}
+#edit-card.open{
+    opacity: 1;
+    z-index: 2;
+}
+#edit-card > div{
+    background-color: #ffffffab;
+    padding: 20px;
+}
+#edit-card > div > :nth-child(5){
+    display: flex;
+}
+#edit-card > div > :nth-child(5) > :nth-child(1){
+    flex: 1;
+}
+#edit-card > div > :nth-child(5) > :nth-child(2){
+    flex: 1;
+}
+
+#please-wait{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+
+    display: none;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000094;
+    user-select: none;
+    color: white;
+    zoom: 1.5;
+    z-index: 3;
+}
+#please-wait > img{
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    animation: 1s infinite;
+    animation-name: please-wait;
+}
+#please-wait.open{
+    display: flex;
+    opacity: 1;
+}
+
+#volume{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: #00000094;
+    zoom: 1.5;
+    z-index: -1;
+}
+#volume.open{
+    opacity: 1;
+    z-index: 3;
+}
+#open-volume{
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    zoom: 1.5;
+}
+
+#simg{
+    height: 80%;
+    width: 80%;
+    /* opacity: 0.3; */
+
+    user-select: none;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#result-root{
+    position: absolute;
+    text-align: center;
+    z-index: -1;
+    opacity: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#next{
+    position: absolute;
+    bottom: 20%;
+    font-size: 22px;
+}
+
+#hint{
+    position: absolute;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+    width: 100%;
+    height: 100%;
+    
+    background-color: #00000054;
+    color: white;
+}
+#hint > div > .hand{
+    position: relative;
+    animation: 1.5s infinite;
+    animation-name: hint-hand;
+}
+
+#hint #prize-menu-hint{
+    position: absolute;
+    top: 0px;
+    right: 72px;
+}
+#hint #prize-menu-hint .hand{
+    position: relative;
+    animation: 1.5s infinite;
+    animation-name: prize-menu-hint-head;
+}
+#hint #pool-menu-hint{
+    position: absolute;
+    top: 0px;
+    left: 72px;
+}
+#hint #pool-menu-hint .hand{
+    position: relative;
+    animation: 1.5s infinite;
+    animation-name: pool-menu-hint-head;
+}
+
+#g1{
+    opacity: 0;
+    /* animation: .5s;
+    animation-name: g1-reset; */
+}
+#g2{
+    opacity: 0;
+    /* animation: .5s;
+    animation-name: g2-reset; */
+}
+
+.g1-open-animation{
+    animation: 2s;
+    animation-name: g1-open;
+}
+.g2-open-animation{
+    animation: 2s;
+    animation-name: g2-open;
+}
+
+
+.h47{
+    height: 47%;
+}
+.h52{
+    height: 52%;
+}
+
+.menu-item{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 177px;
+    height: 175px;
+}
+.menu-item > .close{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.menu-item > .edit{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+
+.pool-menu-item{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    margin: 0px 10px 5px 10px;
+    background-color: #a3d1d2;
+    cursor: pointer;
+    user-select: none;
+    background-size: cover;
+    background-position-y: 50%;
+}
+.pool-menu-item.selected{
+    background-color: #a0c8f4;
+}
+.pool-menu-item.selected::before{
+    content: '';
+    border-left: 15px solid #5297e3;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    position: absolute;
+    left: 0px;
+}
+.pool-menu-item.selected::after{
+    content: '';
+    border-right: 15px solid #5297e3;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    position: absolute;
+    right: 0px;
+}
+.pool-menu-item > :nth-child(1){
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: white 0.1em 0.1em 0.2em;
+}
+.pool-menu-item > :nth-child(2){
+    color: #353535;
+    text-shadow: white 0.1em 0.1em 0.2em;
+}
+.pool-menu-item > .close{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.pool-menu-item-p{
+    position: relative;
+}
+.pool-menu-item-p > :nth-child(2){
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.pool-menu-item-p > :nth-child(3){
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
+
+#result-root.open{
+    z-index: 1;
+    opacity: 1;
+}
+#result.animation > :nth-child(1){
+    animation: 3s;
+    animation-name: result-image;
+}
+#result.animation > :nth-child(2){
+    animation: 3s;
+    animation-name: result-name;
+}
+#result.animation > :nth-child(3){
+    animation: 3s;
+    animation-name: result-level;
+}
+#result.animation > :nth-child(4) > :nth-child(1){
+    animation: 3s;
+    animation-name: result-star1;
+}
+#result.animation > :nth-child(4) > :nth-child(2){
+    animation: 3s;
+    animation-name: result-star2;
+}
+#result.animation > :nth-child(4) > :nth-child(3){
+    animation: 3s;
+    animation-name: result-star3;
+}
+#result.animation > :nth-child(4) > :nth-child(4){
+    animation: 3s;
+    animation-name: result-star4;
+}
+#result.animation > :nth-child(4) > :nth-child(5){
+    animation: 3s;
+    animation-name: result-star5;
+}
+
+
+#next.animation{
+    animation: 3s;
+    animation-name: next-text;
+}
+
+@keyframes g1-reset {
+    from{
+        transform: translateY(-80%);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+@keyframes g2-reset {
+    from{
+        transform: translateY(80%);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes g1-open {
+    from{
+        transform: translateY(-5%);
+        opacity: 1;
+    }
+    to{
+        transform: translateY(-80%);
+        opacity: 0;
+    }
+}
+@keyframes g2-open {
+    from{
+        transform: translateY(5%);
+        opacity: 1;
+    }
+    to{
+        transform: translateY(80%);
+        opacity: 0;
+    }
+}
+
+@keyframes result-image {
+    0%{
+        opacity: 0;
+    }
+    60%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(1.5);
+    }
+    100%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-name {
+    0%{
+        opacity: 0;
+    }
+    65%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(1.5);
+    }
+    100%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-level {
+    0%{
+        opacity: 0;
+    }
+    65%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(1.5);
+    }
+    100%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-star1 {
+    0%{
+        opacity: 0;
+    }
+    70%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(2);
+    }
+    80%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-star2 {
+    0%{
+        opacity: 0;
+    }
+    75%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(2);
+    }
+    85%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-star3 {
+    0%{
+        opacity: 0;
+    }
+    80%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(2);
+    }
+    90%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-star4 {
+    0%{
+        opacity: 0;
+    }
+    85%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(2);
+    }
+    95%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes result-star5 {
+    0%{
+        opacity: 0;
+    }
+    90%{
+        opacity: 0;
+        /* zoom: 150%; */
+        transform: scale(2);
+    }
+    100%{
+        opacity: 1;
+        /* zoom: 100%; */
+        transform: scale(1);
+    }
+}
+@keyframes next-text {
+    0%{
+        opacity: 0;
+    }
+    95%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes hint-hand {
+    0%{
+        top: -50px;
+    }
+    50%{
+        top: 50px;
+    }
+    100%{
+        top: -50px;
+    }
+}
+
+@keyframes prize-menu-hint-head {
+    0%{
+        left: 0;
+    }
+    50%{
+        left: 27;
+    }
+    100%{
+        left: 0;
+    }
+}
+@keyframes pool-menu-hint-head {
+    0%{
+        right: 0;
+    }
+    50%{
+        right: 27;
+    }
+    100%{
+        right: 0;
+    }
+}
+
+@keyframes please-wait {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

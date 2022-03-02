@@ -3,645 +3,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="281999355084-fedtaeh4ngblighrgbk7n84c0k34n4on.apps.googleusercontent.com">
     <title>建元轉蛋機</title>
 
-    <style>
-        html, body{
-            margin: 0px;
-            height: 100%;
-            width: 100%;
-            overflow-y: hidden;
-        }
-        #app{
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            position: relative;
-        }
-
-        #menu{
-            position: fixed;
-            right: -100%;
-            width: 100%;
-            height: 100%;
-            transition: 1s;
-
-            display: flex;
-            flex-direction: column;
-
-            background-color: gainsboro;
-        }
-        #menu > :nth-child(1){
-            position: absolute;
-            left: -30px;
-            zoom: 1.5;
-            transition: 1s;
-            transform: rotate(180deg);
-        }
-        #menu > :nth-child(1).open{
-            transform: rotate(0deg);
-            left: 0px;
-        }
-        #menu.open{
-            right: 0px;
-        }
-        #menu > #listView{
-            display: flex;
-            flex-wrap: wrap;
-            flex: 1;
-            align-items: flex-start;
-            align-content: flex-start;
-            overflow-y: auto;
-        }
-
-        #simg{
-            height: 80%;
-            width: 80%;
-            /* opacity: 0.3; */
-
-            user-select: none;
-
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #result-root{
-            position: absolute;
-            text-align: center;
-            z-index: -1;
-            opacity: 0;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            
-            width: 100%;
-            height: 100%;
-        }
-
-        #next{
-            position: absolute;
-            bottom: 20%;
-            font-size: 22px;
-        }
-
-        #hint{
-            position: absolute;
-            font-size: 22px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            
-            width: 100%;
-            height: 100%;
-            
-            background-color: #00000054;
-            color: white;
-        }
-        #hint > div > .hand{
-            position: relative;
-            animation: 1.5s infinite;
-            animation-name: hint-hand;
-        }
-
-        #hint #prize-menu-hint{
-            position: absolute;
-            top: 0px;
-            right: 72px;
-        }
-        #hint #prize-menu-hint .hand{
-            position: relative;
-            animation: 1.5s infinite;
-            animation-name: prize-menu-hint-head;
-        }
-
-        #g1{
-            opacity: 0;
-            /* animation: .5s;
-            animation-name: g1-reset; */
-        }
-        #g2{
-            opacity: 0;
-            /* animation: .5s;
-            animation-name: g2-reset; */
-        }
-
-        .g1-open-animation{
-            animation: 2s;
-            animation-name: g1-open;
-        }
-        .g2-open-animation{
-            animation: 2s;
-            animation-name: g2-open;
-        }
-
-
-        .h47{
-            height: 47%;
-        }
-        .h52{
-            height: 52%;
-        }
-
-        #menu .menu-item{
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-bottom: 10px;
-            width: 177px;
-            height: 175px;
-        }
-        #menu .menu-item > .close{
-            position: absolute;
-            right: 0px;
-            top: 0px;
-        }
-
-        #result-root.open{
-            z-index: 1;
-            opacity: 1;
-        }
-        #result.animation > :nth-child(1){
-            animation: 3s;
-            animation-name: result-image;
-        }
-        #result.animation > :nth-child(2){
-            animation: 3s;
-            animation-name: result-name;
-        }
-        #result.animation > :nth-child(3){
-            animation: 3s;
-            animation-name: result-level;
-        }
-        #result.animation > :nth-child(4) > :nth-child(1){
-            animation: 3s;
-            animation-name: result-star1;
-        }
-        #result.animation > :nth-child(4) > :nth-child(2){
-            animation: 3s;
-            animation-name: result-star2;
-        }
-        #result.animation > :nth-child(4) > :nth-child(3){
-            animation: 3s;
-            animation-name: result-star3;
-        }
-        #result.animation > :nth-child(4) > :nth-child(4){
-            animation: 3s;
-            animation-name: result-star4;
-        }
-        #result.animation > :nth-child(4) > :nth-child(5){
-            animation: 3s;
-            animation-name: result-star5;
-        }
-
-        
-        #next.animation{
-            animation: 3s;
-            animation-name: next-text;
-        }
-
-        @keyframes g1-reset {
-            from{
-                transform: translateY(-80%);
-                opacity: 0;
-            }
-            to{
-                transform: translateY(0%);
-                opacity: 1;
-            }
-        }
-        @keyframes g2-reset {
-            from{
-                transform: translateY(80%);
-                opacity: 0;
-            }
-            to{
-                transform: translateY(0%);
-                opacity: 1;
-            }
-        }
-
-        @keyframes g1-open {
-            from{
-                transform: translateY(-5%);
-                opacity: 1;
-            }
-            to{
-                transform: translateY(-80%);
-                opacity: 0;
-            }
-        }
-        @keyframes g2-open {
-            from{
-                transform: translateY(5%);
-                opacity: 1;
-            }
-            to{
-                transform: translateY(80%);
-                opacity: 0;
-            }
-        }
-
-        @keyframes result-image {
-            0%{
-                opacity: 0;
-            }
-            60%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(1.5);
-            }
-            100%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-name {
-            0%{
-                opacity: 0;
-            }
-            65%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(1.5);
-            }
-            100%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-level {
-            0%{
-                opacity: 0;
-            }
-            65%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(1.5);
-            }
-            100%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-star1 {
-            0%{
-                opacity: 0;
-            }
-            70%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(2);
-            }
-            80%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-star2 {
-            0%{
-                opacity: 0;
-            }
-            75%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(2);
-            }
-            85%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-star3 {
-            0%{
-                opacity: 0;
-            }
-            80%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(2);
-            }
-            90%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-star4 {
-            0%{
-                opacity: 0;
-            }
-            85%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(2);
-            }
-            95%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes result-star5 {
-            0%{
-                opacity: 0;
-            }
-            90%{
-                opacity: 0;
-                /* zoom: 150%; */
-                transform: scale(2);
-            }
-            100%{
-                opacity: 1;
-                /* zoom: 100%; */
-                transform: scale(1);
-            }
-        }
-        @keyframes next-text {
-            0%{
-                opacity: 0;
-            }
-            95%{
-                opacity: 0;
-            }
-            100%{
-                opacity: 1;
-            }
-        }
-
-        @keyframes hint-hand {
-            0%{
-                top: -50px;
-            }
-            50%{
-                top: 50px;
-            }
-            100%{
-                top: -50px;
-            }
-        }
-
-        @keyframes prize-menu-hint-head {
-            0%{
-                left: 0;
-            }
-            50%{
-                left: 27;
-            }
-            100%{
-                left: 0;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="./css/app.css">
 
     <script src="https://unpkg.com/vue@3.0.2/dist/vue.global.js"></script>
-    <script>
-        window.onload = function(){
-            const IMAGE_MAX_COUNT = 3;
-            const OPEN_FREQUENCY = 8;
-            const INSIDE_SECOND = 1;
-
-            const IMAGE_STATUS = {
-                DOWN: 0,
-                UP: 1,
-                OPEN: 2
-            }
-
-            const PRIZE_LEVEL = {
-                [10]: 'N',
-                [8]: 'R',
-                [6]: 'SR',
-                [4]: 'UR',
-                [1]: 'SSR'
-            }
-
-            const BASE_PRIZES = [
-                {
-                    image: './images/prizes/dasiBAN.gif',
-                    name: '黨證',
-                    weight: 1,
-                },
-                {
-                    image: './images/prizes/dasiG.png',
-                    name: '綠帽',
-                    weight: 10,
-                },
-                {
-                    image: './images/prizes/dasiWife.png',
-                    name: '元元子',
-                    weight: 6,
-                },
-                {
-                    image: './images/prizes/dasiAs.png',
-                    name: '甲元',
-                    weight: 10,
-                },
-                {
-                    image: './images/prizes/magicg21Gadra.png',
-                    name: '8bit嘎抓',
-                    weight: 4,
-                },
-                {
-                    image: './images/prizes/magicg21Pinkstarke.png',
-                    name: '哈哈屁眼',
-                    weight:10,
-                }
-            ]
-            
-            var prizes;
-            if(localStorage.prizes){
-                prizes = JSON.parse(localStorage.prizes);
-            }else{
-                prizes = BASE_PRIZES;
-                localStorage.setItem('prizes', JSON.stringify(prizes));
-            }
-
-            Vue.createApp({
-                data(){
-                    return {
-                        IMAGE_STATUS,
-                        PRIZE_LEVEL,
-                        prizes,
-
-                        si: 1,
-                        previousSi: 0,
-
-                        mouxtPreviousY: 0,
-                        previousSec: 0,
-                        achieved: 0,
-                        pastSec: 0,
-
-                        prizeIndex: 0,
-
-                        imageStatus: null,
-
-                        isMouseDowned: false,
-                        canReset: false,
-
-                        closeHint: false,
-
-                        isMenuOpen: false,
-
-                        changeImageIndexForPrize: -1,
-                    };
-                },
-                methods: {
-                    mouseDown(e){
-                        this.isMouseDowned = true;
-                        this.mouxtPreviousY = e.changedTouches? e.changedTouches[0].pageY: e.y;
-                        this.previousSec = Date.now();
-                    },
-                    mouseMove(e){
-                        if(!this.isMouseDowned || this.imageStatus == IMAGE_STATUS.OPEN) return;
-                        // console.debug(e);
-                        let y = e.changedTouches? e.changedTouches[0].pageY: e.y;
-                        this.si = Math.max(0, Math.min(IMAGE_MAX_COUNT, (this.si + (y - this.mouxtPreviousY) * 0.02)));
-                        this.mouxtPreviousY = y;
-
-                        this.pastSec += Date.now() - this.previousSec;
-                        this.previousSec = Date.now();
-                        if(this.pastSec / 1000 > INSIDE_SECOND){
-                            console.debug("清");
-                            this.achieved = 0;
-                            this.pastSec = 0;
-                        }
-
-                        if(this.si == 0){
-                            let audioPlayer = null;
-                            if(this.previousSi != this.si){
-                                audioPlayer = new Audio();
-                                audioPlayer.src = './audios/audio1.mp3';
-                                audioPlayer.play();
-                            }
-                            if(this.imageStatus != IMAGE_STATUS.UP){
-                                this.imageStatus = IMAGE_STATUS.UP;
-                                this.achieved++;
-                                console.debug("_達", this.achieved);
-                                if(this.achieved >= OPEN_FREQUENCY){
-                                    audioPlayer = new Audio();
-                                    audioPlayer.src = './audios/audio2.mp3';
-                                    audioPlayer.play();
-                                    this.open();
-                                }
-                            }
-                            audioPlayer?.play();
-                        }else if(this.si == IMAGE_MAX_COUNT){
-                            if(this.previousSi != this.si){
-                                let audioPlayer = new Audio();
-                                audioPlayer.src = './audios/audio1.mp3';
-                                audioPlayer.play();
-                            }
-                            if(this.imageStatus != IMAGE_STATUS.DOWN){
-                                this.imageStatus = IMAGE_STATUS.DOWN;
-                                this.achieved++;
-                                console.debug("__達", this.achieved);
-                            }
-                        }
-                        this.previousSi = this.si;
-                    },
-                    mouseUp(e){
-                        this.isMouseDowned = false;
-                        this.achieved = 0;
-                        this.pastSec = 0;
-                    },
-                    open(){
-                        var r = Math.random();
-
-                        console.debug("開");
-                        this.imageStatus = IMAGE_STATUS.OPEN;
-                        setTimeout(() => {
-                            let audioPlayer = new Audio();
-                            audioPlayer.src = './audios/crrect_answer3.mp3';
-                            audioPlayer.play();
-                            setTimeout(()=>this.canReset = true, 1000);
-                        }, 2000)
-
-                        console.debug(r, prizes);
-                        
-                        let p = 0;
-                        for(let i in this.prizes){
-                            p += this.prizes[i].probability;
-                            if(p >= r){
-                                this.prizeIndex = i;
-                                break;
-                            }
-                        }
-                    },
-                    reset(){
-                        if(!this.canReset) return;
-                        this.canReset = false;
-                        this.imageStatus = null;
-                        this.si = 2;
-                    },
-                    setWeight(){
-                        var allWeight = this.prizes.map(i => i.weight).reduce((a, b) => a + b);
-                        prizes.forEach(i => i.probability = i.weight / allWeight);
-                    },
-                    addPrize(){
-                        this.prizes.push({
-                            image: '',
-                            name: '',
-                            weight: 10,
-                        });
-                        this.$nextTick(function () {
-                            listView.scrollTop = listView.scrollHeight;
-                        })
-                    },
-                    prizeImageToChange(index){
-                        this.changeImageIndexForPrize = index;
-                        selectImage.click();
-                    },
-                    prizeImageChanged(file){
-                        file = file.target.files[0];
-                        if(file){
-                            let reader = new FileReader();
-                            reader.onloadend = () => {
-                                this.prizes[this.changeImageIndexForPrize].image = reader.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-                },
-                watch: {
-                    prizes: {
-                        handler(val){
-                            if(val.length > 0){
-                                this.setWeight();
-                                localStorage.setItem('prizes', JSON.stringify(prizes));
-                            }else{
-                                localStorage.removeItem('prizes');
-                            }
-                        },
-                        deep: true
-                    }
-                },
-                mounted(){
-                    this.setWeight();
-                }
-            }).mount('#app');
-        }
-    </script>
+    <script src="./js/API.js"></script>
+    <script src="./js/app.js"></script>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <div id="app">
         <div id="simg" @mousedown="mouseDown" @mousemove="mouseMove" @mouseUp="mouseUp" @mouseleave="mouseUp" @touchstart="mouseDown" @touchmove="mouseMove" @touchend="mouseUp" @touchcancel="mouseUp" :style="{'background-image': imageStatus != IMAGE_STATUS.OPEN? 'url(./images/s' + parseInt(si) + '.png)': ''}">
             <img id="g1" draggable="false" src="./images/gay1.png" :class="{h52: true, 'g1-open-animation': imageStatus == IMAGE_STATUS.OPEN}">
             <img id="g2" draggable="false" src="./images/gay2.png" :class="{h47: true, 'g2-open-animation': imageStatus == IMAGE_STATUS.OPEN}">
+            <button id="open-volume" @click="isShowVolume = true">📢</button>
         </div>
         <div id="result-root":class="{open: imageStatus == IMAGE_STATUS.OPEN}" @click="reset">
             <div id="result" :class="{animation: imageStatus == IMAGE_STATUS.OPEN}">
@@ -669,31 +48,127 @@
                 <span class="hand">👆🏻</span>按住畫面並快速上下滑動
             </div>
             <button @click="closeHint = true" style="zoom: 1.2;">了解</button>
-            <span id="prize-menu-hint">點這裡可以更換獎品<span class="hand">👉🏻</span></span>
+            <span id="prize-menu-hint">點這裡可以更換卡牌<span class="hand">👉🏻</span></span>
+            <span id="pool-menu-hint"><span class="hand">👈🏻</span>點這裡可以更換卡池</span>
         </div>
-        <div id="menu" :class="{open: isMenuOpen}">
-            <button :class="{open: isMenuOpen}" @click="isMenuOpen = isMenuOpen? false: true"><span>➜</span></button>
-            <div style="text-align: center; zoom: 2;">
-                獎品清單
+        <div id="login" :class="{show: isShowLoginScreen}">
+            <p>登入後繼續</p>
+            <div>
+                <!-- <div id="g_id_onload"
+                    data-client_id="281999355084-fedtaeh4ngblighrgbk7n84c0k34n4on.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-callback="onSignIn"
+                    data-auto_prompt="true">
+                </div>
+    
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="pill"
+                    data-theme="filled_black"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="left">
+                </div> -->
             </div>
-            <input id="selectImage" type="file" accept="image/*;" @change="prizeImageChanged" hidden>
+            <button @click="isShowLoginScreen = false">不要</button>
+        </div>
+        <input id="selectImage" type="file" accept="image/*;" @change="imageChanged" hidden>
+        <div id="menu" :class="{open: isMenuOpen}">
+            <button :class="{open: isMenuOpen, hidden: isPoolMenuOpen}" @click="isMenuOpen = isMenuOpen? false: true"><span>➜</span></button>
+            <div style="text-align: center; zoom: 2;">
+                卡片清單
+            </div>
             <div id="listView">
-                <div v-for="(i, k) in prizes" class="menu-item">
-                    <button class="close" @click="prizes.splice(k,1)">X</button>
+                <div v-for="(i, k) in prizes" class="menu-item" style="text-align: center;">
+                    <button class="close" @click="cardDelete(k)" :hidden="cardPoolIndex != -1 && i.userId != userId && pools[cardPoolIndex].userId != userId">X</button>
                     <div style="text-align: center;">
                         <img :src="i.image" height="112">
                     </div>
-                    <button @click="prizeImageToChange(k)">更換圖片</button>
-                    <input type="text" v-model="i.name" placeholder="獎品名稱">
-                    <select v-model.number="i.weight">
-                        <option v-for="(oi, ok) in PRIZE_LEVEL" :value="ok">{{oi}}</option>
-                    </select>
+                    <div>
+                        {{i.name}}
+                    </div>
+                    <div>
+                        {{PRIZE_LEVEL[i.weight]}}
+                    </div>
+                    <button class="edit" @click="editingCardIndex = k; showEditCard()" :hidden="cardPoolIndex != -1 && i.userId != userId && pools[cardPoolIndex].userId != userId">✏️</button>
                 </div>
                 <div class="menu-item">
-                    <button @click="addPrize" style="zoom: 1.2; height: 100%;">+新增獎品</button>
+                    <button @click="editingCardIndex = -1; showEditCard()" style="zoom: 1.2; height: 100%;" :disabled="cardPoolIndex != -1 && pools[cardPoolIndex].userId != userId && !pools[cardPoolIndex].isPublic">+新增卡片<span :hidden="cardPoolIndex == -1 || pools[cardPoolIndex].userId == userId || pools[cardPoolIndex].isPublic"><br>(這個卡池不允許其他人編輯)</span></button>
                 </div>
             </div>
             <!-- <button @click="addPrize" style="zoom: 1.2; flex: 0;">+新增獎品</button> -->
+        </div>
+        <div id="pool-menu" :class="{open: isPoolMenuOpen}">
+            <button :class="{open: isPoolMenuOpen, hidden: isMenuOpen}" @click="isPoolMenuOpen = isPoolMenuOpen? false: true"><span>➜</span></button>
+            <div style="text-align: center; zoom: 2;">
+                卡池清單
+            </div>
+            <div id="listView">
+                <div :class="{'pool-menu-item': true, selected: cardPoolIndex == -1}" @click="selectedCardPool(-1)">
+                    <p>基本卡池</p>
+                    <span>預設的非線上卡池</span>
+                </div>
+                
+                <div v-for="(i, k) in pools" class="pool-menu-item-p">
+                    <div :class="{'pool-menu-item': true, selected: cardPoolIndex == k}" :style="{'background-image': 'url(' + i.image + ')'}" @click="selectedCardPool(k)">
+                        <p>{{i.name}}</p>
+                        <span>{{i.describe}}</span>
+                    </div>
+                    <button @click="poolDelete(k)" :hidden="i.userId != userId">X</button>
+                    <button @click="editingPoolIndex = k; showEditPool()" :hidden="i.userId != userId">✏️</button>
+                </div>
+                <!-- <div class="menu-item">
+                    <button @click="addPrize" style="zoom: 1.2; height: 100%;">+新增卡池</button>
+                </div> -->
+            </div>
+            <button @click="editingPoolIndex = -1; showEditPool()" style="zoom: 1.2; flex: 0; min-height: 45px;">+新增卡池</button>
+        </div>
+        <div id="edit-pool" :class="{open: isShowEditPool}">
+            <div>
+                <div class="pool-menu-item" :style="{'background-image': 'url(' + editingPool.image + ')'}">
+                    <input type="text" v-model="editingPool.name" placeholder="卡池名稱" >
+                    <input type="text" v-model="editingPool.describe" placeholder="卡池說明">
+                </div>
+                <button @click="imageToChange(editingPool)">更換背景圖片</button>
+                <div>
+                    <input type="checkbox" id="is-public" v-model="editingPool.isPublic">
+                    <label for="is-public">允許其他人在這個卡池中加入卡牌</label>
+                </div>
+                <div>
+                    <button @click="sendPool">送出</button>
+                    <button @click="isShowEditPool = false">取消</button>
+                </div>
+            </div>
+        </div>
+        <div id="edit-card" :class="{open: isShowEditCard}">
+            <div class="menu-item">
+                <div style="text-align: center;">
+                    <img :src="editingCard.image" height="112">
+                </div>
+                <button @click="imageToChange(editingCard)">更換圖片</button>
+                <input type="text" v-model="editingCard.name" placeholder="卡牌名稱">
+                <select v-model.number="editingCard.weight">
+                    <option v-for="(oi, ok) in PRIZE_LEVEL" :value="ok">{{oi}}</option>
+                </select>
+                <div>
+                    <button @click="sendCard">送出</button>
+                    <button @click="isShowEditCard = false">取消</button>
+                </div>
+            </div>
+        </div>
+        <div id="volume" :class="{open: isShowVolume}">
+            <div>
+                <span style="color: white;">{{audioVolume}}</span>
+            </div>
+            <div>
+                📢<input type="range" min="0" max="100" v-model="audioVolume">
+            </div>
+            <button @click="isShowVolume = false">關閉</button>
+        </div>
+        <div id="please-wait" :class="{open: isShowPaeaseWait}">
+            <img src="./images/prizes/magicg21Pinkstarke.png" alt="">
+            <span>請稍後...</span>
         </div>
     </div>
 </body>
