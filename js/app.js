@@ -32,8 +32,8 @@ window.onload = function(){
         [10]: 'N',
         [8]: 'R',
         [6]: 'SR',
-        [4]: 'UR',
-        [1]: 'SSR'
+        [4]: 'SSR',
+        [1]: 'UR'
     };
 
     const BASE_PRIZES = [
