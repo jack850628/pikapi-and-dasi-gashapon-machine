@@ -69,10 +69,8 @@ window.onload = function(){
         }
     ]
     
-    var prizes;
-    if(localStorage.prizes){
-        prizes = JSON.parse(localStorage.prizes);
-    }else{
+    var prizes = localStorage.prizes && JSON.parse(localStorage.prizes) || [];
+    if(prizes.length == 0){
         prizes = BASE_PRIZES;
         localStorage.setItem('prizes', JSON.stringify(prizes));
     }
@@ -451,13 +449,15 @@ window.onload = function(){
                     return;
                 }
                 if(confirm('確定要刪除？')){
-                    if(this.editingCardIndex == -1){
+                    if(this.cardPoolIndex == -1){
                         this.prizes.splice(i, 1);
-                        localStorage.setItem('prizes', JSON.stringify(prizes));
+                        localStorage.setItem('prizes', JSON.stringify(this.prizes));
+                        this.setWeight();
                     }else{
                         this.isShowPaeaseWait = true;
                         Card.deleteCard(this.token, this.prizes[i].id).then(result => {
                             this.prizes.splice(i, 1);
+                            this.setWeight();
                         }).catch((e) => {
                             alert('不好意思，發生錯誤了')
                             console.error(e);
