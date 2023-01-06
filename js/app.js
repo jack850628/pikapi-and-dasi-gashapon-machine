@@ -358,6 +358,9 @@ window.onload = function(){
                 if(confirm('確定要刪除？')){
                     this.isShowPaeaseWait = true;
                     CardPool.deletePool(this.token, this.pools[i].id).then(result => {
+                        if(i == this.cardPoolIndex){
+                            this.selectedCardPool(-1)
+                        }
                         this.pools.splice(i, 1);
                     }).catch((e) => {
                         alert('不好意思，發生錯誤了')
